@@ -1,6 +1,6 @@
 import { Model, Types } from "mongoose";
 
-export interface name {
+export interface IstudentName {
   firstName: string;
   middleName?: string;
   lastName: string;
@@ -21,7 +21,7 @@ export interface IlocalGuardian {
 
 export interface Istudent {
   id: string;
-  name: name;
+  name: IstudentName;
   user: Types.ObjectId;
   gender: "male" | "female";
   dateOfBirth: Date;
@@ -34,6 +34,7 @@ export interface Istudent {
   permanentAddress: string;
   profileImage: string;
   academicDepartment?: Types.ObjectId;
+  academicSemister: Types.ObjectId;
   isDeleted: boolean;
 }
 

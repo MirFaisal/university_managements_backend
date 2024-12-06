@@ -1,5 +1,20 @@
 import mongoose from "mongoose";
-import { Iguardian, IlocalGuardian, Istudent } from "./student.interface";
+import { Iguardian, IlocalGuardian, Istudent, IstudentName } from "./student.interface";
+
+const studentNameSchema = new mongoose.Schema<IstudentName>({
+  firstName: {
+    type: String,
+    required: true,
+  },
+  middleName: {
+    type: String,
+    required: false,
+  },
+  lastName: {
+    type: String,
+    required: true,
+  },
+});
 
 const studentGuardianSchema = new mongoose.Schema<Iguardian>(
   {
@@ -54,6 +69,10 @@ const studentSchema = new mongoose.Schema<Istudent>(
       required: true,
       unique: true,
     },
+    name: {
+      type: studentNameSchema,
+      required: true,
+    },
     user: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
@@ -106,6 +125,11 @@ const studentSchema = new mongoose.Schema<Istudent>(
       // type: mongoose.Schema.Types.ObjectId,
       // ref: "AcademicDepartment",
       type: String,
+      required: true,
+    },
+    academicSemister: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "accademicSemister",
       required: true,
     },
     isDeleted: {

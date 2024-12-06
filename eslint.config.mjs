@@ -12,7 +12,7 @@ export default [
     rules: {
       "prefer-const": ["error", { ignoreReadBeforeAssign: true }], // Enforce 'const' over 'let' where applicable
       "no-console": "warn", // Warn when 'console' is used
-      "no-var": "warn", // Enforce the use of 'let' or 'const', disallow 'var'
+      "no-var": "error", // Enforce the use of 'let' or 'const', disallow 'var'
       "no-use-before-define": "warn", // Warn when a variable is used before its definition
       "no-undef": "warn", // Warn when a variable is used before its definition
     },
