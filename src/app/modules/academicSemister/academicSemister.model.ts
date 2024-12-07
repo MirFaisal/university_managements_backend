@@ -1,5 +1,6 @@
 /* eslint-disable no-use-before-define */
 import mongoose from "mongoose";
+import AppError from "../../utils/appError";
 import { code, months, monthWithNumber } from "./academicSemister.constant";
 import { IAcademicSemister } from "./academicSemister.interface";
 
@@ -20,15 +21,15 @@ academicSemisterSchema.pre("save", async function (next) {
     year: this.year,
   });
   if (isExist) {
-    throw new Error("Academic semister already exist");
+    throw new AppError("Academic semister already exist", 400);
   }
 
   if (monthWithNumber[this.startMonth] >= monthWithNumber[this.endMonth]) {
-    throw new Error("Start month should be less than end month");
+    throw new AppError("Start month should be less than end month", 400);
   }
 
   if (code[this.name] !== this.code) {
-    throw new Error("Invalid semister code");
+    throw new AppError("Invalid semister code", 400);
   }
 
   next();

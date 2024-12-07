@@ -5,6 +5,20 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Student = void 0;
 const mongoose_1 = __importDefault(require("mongoose"));
+const studentNameSchema = new mongoose_1.default.Schema({
+    firstName: {
+        type: String,
+        required: true,
+    },
+    middleName: {
+        type: String,
+        required: false,
+    },
+    lastName: {
+        type: String,
+        required: true,
+    },
+});
 const studentGuardianSchema = new mongoose_1.default.Schema({
     name: {
         type: String,
@@ -48,6 +62,10 @@ const studentSchema = new mongoose_1.default.Schema({
         type: String,
         required: true,
         unique: true,
+    },
+    name: {
+        type: studentNameSchema,
+        required: true,
     },
     user: {
         type: mongoose_1.default.Schema.Types.ObjectId,
@@ -101,6 +119,11 @@ const studentSchema = new mongoose_1.default.Schema({
         // type: mongoose.Schema.Types.ObjectId,
         // ref: "AcademicDepartment",
         type: String,
+        required: true,
+    },
+    academicSemister: {
+        type: mongoose_1.default.Schema.Types.ObjectId,
+        ref: "accademicSemister",
         required: true,
     },
     isDeleted: {

@@ -16,15 +16,15 @@ const modeleRoutes = [
     route: studentRouter,
   },
   {
-    path: "/academic-semister",
+    path: "/academic-semisters",
     route: academicSemisterRouter,
   },
   {
-    path: "/academic-department",
+    path: "/academic-departments",
     route: academicDepartmentRouter,
   },
   {
-    path: "/academic-faculty",
+    path: "/academic-faculies",
     route: academicFacultyRouter,
   },
 ];

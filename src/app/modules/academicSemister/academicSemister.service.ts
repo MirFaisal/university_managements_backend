@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import AppError from "../../utils/appError";
 import { IAcademicSemister } from "./academicSemister.interface";
 import { AcademicSemister } from "./academicSemister.model";
 
@@ -14,7 +15,7 @@ const getAllAcademicSemister = async () => {
 
 const getAcademicSemisterById = async (id: string) => {
   if (!mongoose.Types.ObjectId.isValid(id)) {
-    throw new Error("Semister id is not valid");
+    new AppError("Semister id is not valid", 400);
   }
 
   const semister = await AcademicSemister.findById(id);
@@ -23,7 +24,7 @@ const getAcademicSemisterById = async (id: string) => {
 
 const updateAcademicSemisterById = async (id: string, payload: Partial<IAcademicSemister>) => {
   if (!mongoose.Types.ObjectId.isValid(id)) {
-    throw new Error("Semister id is not valid");
+    new AppError("Semister id is not valid", 400);
   }
 
   const isExist = await AcademicSemister.findOne({
@@ -32,7 +33,7 @@ const updateAcademicSemisterById = async (id: string, payload: Partial<IAcademic
   });
 
   if (isExist) {
-    throw new Error("Semister already exist");
+    throw new AppError("Semister already exist", 400);
   }
 
   const updatedAcademicSemister = await AcademicSemister.findByIdAndUpdate(id, payload, { new: true });

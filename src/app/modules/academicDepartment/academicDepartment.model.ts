@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import { IAcademicDepartment } from "./academicdepartment.interface";
+import { IAcademicDepartment } from "./academicDepartment.interface";
 
 const academicDepartmentSchema = new mongoose.Schema<IAcademicDepartment>(
   {

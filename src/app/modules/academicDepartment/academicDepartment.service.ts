@@ -1,5 +1,7 @@
 import mongoose from "mongoose";
-import { IAcademicDepartment } from "./academicdepartment.interface";
+
+import AppError from "../../utils/appError";
+import { IAcademicDepartment } from "./academicDepartment.interface";
 import { AcademicDepartment } from "./academicDepartment.model";
 
 /**
@@ -23,7 +25,7 @@ const getAllAcademicDepartment = async (): Promise<IAcademicDepartment[]> => {
  */
 const getAcademicDepartmentById = async (id: string): Promise<IAcademicDepartment | null> => {
   if (!mongoose.Types.ObjectId.isValid(id)) {
-    throw new Error("Department id is not valid");
+    throw new AppError("Department id is not valid", 400);
   }
 
   const result = await AcademicDepartment.findById(id);
@@ -38,7 +40,7 @@ const updateAcademicDepartmentById = async (
   payload: Partial<IAcademicDepartment>
 ): Promise<IAcademicDepartment | null> => {
   if (!mongoose.Types.ObjectId.isValid(id)) {
-    throw new Error("Department id is not valid");
+    throw new AppError("Department id is not valid", 400);
   }
   const result = await AcademicDepartment.findByIdAndUpdate(id, payload, { new: true });
   return result;
@@ -49,11 +51,11 @@ const updateAcademicDepartmentById = async (
  */
 const deleteAcademicDepartmentById = async (id: string): Promise<IAcademicDepartment> => {
   if (!mongoose.Types.ObjectId.isValid(id)) {
-    throw new Error("Department id is not valid");
+    throw new AppError("Department id is not valid", 400);
   }
   const result = await AcademicDepartment.findOne({ _id: id });
   if (!result) {
-    throw new Error("Department not found");
+    throw new AppError("Department not found", 404);
   }
   result.isDeleted = true;
   const deletedAcademicDepartment = await result.save();
