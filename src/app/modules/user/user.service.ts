@@ -1,4 +1,6 @@
+import mongoose from "mongoose";
 import config from "../../config";
+import AppError from "../../utils/appError";
 import { generateStudentId } from "../../utils/generateStudenId";
 import { AcademicSemister } from "../academicSemister/academicSemister.model";
 import { Istudent } from "../student/student.interface";
@@ -17,18 +19,33 @@ const createstudent = async (password: string, studentData: Istudent) => {
   user.id = await generateStudentId(academicSemister!);
   user.role = "student";
 
-  const newUser = await User.create(user);
+  const session = await mongoose.startSession();
+  try {
+    session.startTransaction();
+    const newUser = await User.create([user], { session });
+    console.log(newUser);
 
-  if (Object.keys(newUser).length) {
-    studentData.user = newUser._id;
-    studentData.id = newUser.id;
-    try {
-      const newStudent = await Student.create(studentData);
-      return newStudent;
-    } catch (error) {
-      await User.deleteOne({ _id: newUser._id });
-      throw error;
+    if (!newUser.length) {
+      throw new AppError("Failed to create user", 400);
     }
+
+    studentData.user = newUser[0]._id;
+    studentData.id = newUser[0].id;
+
+    const newStudent = await Student.create([studentData], { session });
+
+    if (!newStudent.length) {
+      throw new AppError("Failed to create student", 400);
+    }
+
+    await session.commitTransaction();
+
+    return newStudent;
+  } catch (error) {
+    await session.abortTransaction();
+    throw new AppError("Failed to create user and student", 400);
+  } finally {
+    await session.endSession();
   }
 };
 

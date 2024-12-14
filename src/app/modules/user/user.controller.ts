@@ -6,6 +6,7 @@ const createUser = catchAsync(async (req, res) => {
   const { password, student } = req.body;
 
   const newStudent = await UserService.createstudent(password, student);
+  console.log(newStudent);
 
   sendResponse(res, {
     statusCode: 200,

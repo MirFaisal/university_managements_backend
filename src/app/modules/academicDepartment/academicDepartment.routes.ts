@@ -7,10 +7,7 @@ import {
   getAllAcademicDepartment,
   updateAcademicDepartmentById,
 } from "./academicDepartment.controller";
-import {
-  createAcademicDepartmentZodSchema,
-  updateAcademicDepartmentZodSchema,
-} from "./academicDepartment.validate";
+import { createAcademicDepartmentZodSchema, updateAcademicDepartmentZodSchema } from "./academicDepartment.validate";
 
 const router = express.Router();
 
