@@ -50,7 +50,7 @@ const getAllStudents = async (query: any) => {
     .filter()
     .sort()
     .paginate()
-    .select().modelQuery;clearImmediate
+    .select().modelQuery;
 
   return studentQuary;
 };
