@@ -122,14 +122,13 @@ const studentSchema = new mongoose.Schema<Istudent>(
       required: true,
     },
     academicDepartment: {
-      // type: mongoose.Schema.Types.ObjectId,
-      // ref: "AcademicDepartment",
-      type: String,
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "AcademicDepartment",
       required: true,
     },
     academicSemister: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "accademicSemister",
+      ref: "AcademicSemister",
       required: true,
     },
     isDeleted: {

@@ -4,7 +4,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UserService = void 0;
+const mongoose_1 = __importDefault(require("mongoose"));
 const config_1 = __importDefault(require("../../config"));
+const appError_1 = __importDefault(require("../../utils/appError"));
 const generateStudenId_1 = require("../../utils/generateStudenId");
 const academicSemister_model_1 = require("../academicSemister/academicSemister.model");
 const student_model_1 = require("../student/student.model");
@@ -17,18 +19,28 @@ const createstudent = async (password, studentData) => {
     user.password = password || config_1.default.defaultStudentPassword;
     user.id = await (0, generateStudenId_1.generateStudentId)(academicSemister);
     user.role = "student";
-    const newUser = await user_model_1.User.create(user);
-    if (Object.keys(newUser).length) {
-        studentData.user = newUser._id;
-        studentData.id = newUser.id;
-        try {
-            const newStudent = await student_model_1.Student.create(studentData);
-            return newStudent;
+    const session = await mongoose_1.default.startSession();
+    try {
+        session.startTransaction();
+        const newUser = await user_model_1.User.create([user], { session });
+        if (!newUser.length) {
+            throw new appError_1.default("Failed to create user", 400);
         }
-        catch (error) {
-            await user_model_1.User.deleteOne({ _id: newUser._id });
-            throw error;
+        studentData.user = newUser[0]._id;
+        studentData.id = newUser[0].id;
+        const newStudent = await student_model_1.Student.create([studentData], { session });
+        if (!newStudent.length) {
+            throw new appError_1.default("Failed to create student", 400);
         }
+        await session.commitTransaction();
+        return newStudent;
+    }
+    catch (error) {
+        await session.abortTransaction();
+        throw new appError_1.default("Failed to create user and student", 400);
+    }
+    finally {
+        await session.endSession();
     }
 };
 exports.UserService = {

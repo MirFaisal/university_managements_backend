@@ -23,7 +23,6 @@ const createstudent = async (password: string, studentData: Istudent) => {
   try {
     session.startTransaction();
     const newUser = await User.create([user], { session });
-    console.log(newUser);
 
     if (!newUser.length) {
       throw new AppError("Failed to create user", 400);
@@ -39,7 +38,6 @@ const createstudent = async (password: string, studentData: Istudent) => {
     }
 
     await session.commitTransaction();
-
     return newStudent;
   } catch (error) {
     await session.abortTransaction();
