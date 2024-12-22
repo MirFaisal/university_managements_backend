@@ -1,13 +1,13 @@
 import { FilterQuery, Query } from "mongoose";
 
-// interface QueryParams {
-//   search?: string;
-//   page?: number;
-//   limit?: number;
-//   sort?: string;
-//   select?: string;
-//   [key: string]: unknown;
-// }
+interface QueryParams {
+  search?: string;
+  page?: number;
+  limit?: number;
+  sort?: string;
+  select?: string;
+  [key: string]: unknown;
+}
 
 class QueryBuilder<I> {
   public modelQuery: Query<I[], I>;
