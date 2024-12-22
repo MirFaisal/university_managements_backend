@@ -70,6 +70,7 @@ class QueryBuilder<I> {
     }
     return this;
   }
+
 }
 
 export default QueryBuilder;
