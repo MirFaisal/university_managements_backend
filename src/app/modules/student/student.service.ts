@@ -32,7 +32,7 @@ const getAllStudents = async (query: any) => {
   //     .limit(query.limit ? Number(query.limit) : 10)
   //     .select(query.select ? query.select.split(",").join(" ") : "-__v");
   // }
-  
+
   const studentQuary = await new QuaryBuilder<Istudent>(
     Student.find()
       .populate({
@@ -50,7 +50,7 @@ const getAllStudents = async (query: any) => {
     .filter()
     .sort()
     .paginate()
-    .select().modelQuary;
+    .select().modelQuery;clearImmediate
 
   return studentQuary;
 };
